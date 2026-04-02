@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+
+  # Backend service
+  backend:
+    build: ./backend        # backend/Dockerfile use karo
+    ports:
+      - "5000:5000"         # Tumhara computer:Container
+    environment:
+      - PORT=5000
+    volumes:
+      - ./backend:/app      # Live code changes dekhne ke liye
+      - /app/node_modules   # node_modules ko overwrite mat karo
+
+  # Frontend service  
+  frontend:
+    build: ./frontend       # frontend/Dockerfile use karo
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:5000
+    depends_on:
+      - backend             # Pehle backend start ho, phir frontend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modulessudo kill -9 12345
